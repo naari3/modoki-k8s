@@ -45,8 +45,17 @@ func NewSQLConn(t *testing.T) *sqlx.DB {
 	return dbx
 }
 
+func reverse(ss []string) {
+	last := len(ss) - 1
+	for i := 0; i < len(ss)/2; i++ {
+		ss[i], ss[last-i] = ss[last-i], ss[i]
+	}
+}
+
 func createTable(t *testing.T, dbx *sqlx.DB) {
 	sqls, err := filepath.Glob("../../schema/*.sql")
+
+	reverse(sqls)
 
 	if err != nil {
 		t.Fatalf("failed to open sql files: %v", err)
